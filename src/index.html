@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>I know what you typed last summer..</title>
+
+  <!-- build:css main.min.css -->
+  <script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/keymaster/1.6.1/keymaster.min.js"></script>
+  <!-- /build -->
+
+  <script>
+
+  var sockjs_url = '/echo';
+  var sockjs = new SockJS(sockjs_url);
+  var messages = [];
+
+  sockjs.onopen = function(e) {
+    console.log(e.data);
+  };
+
+  sockjs.onmessage = function(e) {
+    console.log(e.data);
+    messages.push(e.data);
+  };
+  sockjs.onclose = function()  {};
+
+key('a', function() {
+  sockjs.send('a');
+})
+
+document.onkeypress = function(e) {
+  var k = String.fromCharCode(e.keyCode);
+  console.log('You sent: ' + k);
+  sockjs.send(k);
+}
+  </script>
+</head>
+
+<body>
+Open your javascript console
+</body>
+</html>
